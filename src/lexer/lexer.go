@@ -32,6 +32,10 @@ func (l *Lexer) readChar() {
 	l.readPosition += 1
 }
 
+// The basic structure of the NextToken() method, We look at the current character
+// under examination (l.ch) and return a token depending on which character it is.
+// Before returning the token we advance our pointers into the input so when we call NextToken()
+// again the l.ch field is already updated. A small function called newToken helps us with initializing these tokens.
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
