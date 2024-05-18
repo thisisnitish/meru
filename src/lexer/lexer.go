@@ -93,9 +93,7 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Type = token.LookUpIdentifier(tok.Literal)
 			return tok
 		} else if isDigit(l.ch) {
-			tok.Literal = l.readNumber()
-			tok.Type = token.INT
-			return tok
+			return l.readNumber()
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
@@ -138,16 +136,46 @@ func isLetter(ch byte) bool {
 	return ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z' || ch == '_'
 }
 
-func (l *Lexer) readNumber() string {
+// The purpose of this function is to figure out whether the number is integer of float
+func (l *Lexer) readNumber() token.Token {
+
+	var tokenType token.TokenType = token.INT // assume the number is integer
+
 	position := l.position
 
+	// read the number
 	for isDigit(l.ch) {
 		l.readChar()
 	}
 
-	return l.input[position:l.position]
+	//check when you hit the decimal '.', then read numbers after '.' till you encounter
+	// non number character
+	if isDecimal(l.ch) {
+		if isDigit(l.peekChar()) {
+
+			// we are in a FLOAT territory
+			tokenType = token.FLOAT
+			l.readChar()
+
+			for isDigit(l.ch) {
+				l.readChar()
+			}
+		} else {
+			tokenType = token.ILLEGAL
+		}
+	}
+
+	return token.Token{
+		Type:    tokenType,
+		Literal: l.input[position:l.position],
+	}
+
 }
 
 func isDigit(ch byte) bool {
 	return ch >= '0' && ch <= '9'
+}
+
+func isDecimal(ch byte) bool {
+	return ch == '.'
 }
