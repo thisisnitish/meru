@@ -1,9 +1,8 @@
 package lexer
 
 import (
-	"testing"
-
 	"meru/src/token"
+	"testing"
 )
 
 // TODO: Add all test cases at last
