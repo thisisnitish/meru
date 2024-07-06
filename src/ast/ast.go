@@ -79,7 +79,7 @@ type Identifier struct {
 // Reason for adding statement and token to identifier is that we could have a value producing identifier
 // It is there to keep things simple
 
-func (id *Identifier) statementNode() {}
+func (id *Identifier) expressionNode() {}
 
 func (id *Identifier) TokenLiteral() string {
 	return id.Token.Literal
