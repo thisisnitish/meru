@@ -20,7 +20,7 @@ const (
 	LESSGREATER // > or <
 	SUM         // +
 	PRODUCT     // *
-	PREFIX      // -X or !X or +X
+	PREFIX      // -X or !X
 	CALL        // myFunction(X)
 )
 
