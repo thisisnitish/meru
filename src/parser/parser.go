@@ -13,9 +13,6 @@ type (
 	infixParseFn  func(ast.Expression) ast.Expression
 )
 
-// TODO: Add support for +X in prefix operator
-// TODO: Add support for parsing postfix operators
-
 const (
 	_ int = iota
 	LOWEST

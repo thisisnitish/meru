@@ -41,8 +41,6 @@ func (l *Lexer) NextToken() token.Token {
 
 	l.skipWhitespace()
 
-	// TODO: Add float token type tokenization
-
 	switch l.ch {
 	case '=':
 		if l.peekChar() == '=' {
