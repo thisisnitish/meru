@@ -3,6 +3,7 @@ package ast
 import (
 	"bytes"
 	"meru/src/token"
+	"strings"
 )
 
 type Node interface {
@@ -247,6 +248,31 @@ func (blkStmt *BlockStatement) String() string {
 	for _, stmt := range blkStmt.Statements {
 		out.WriteString(stmt.String())
 	}
+
+	return out.String()
+}
+
+type FunctionLiteral struct {
+	Token      token.Token
+	Parameters []*Identifier
+	Body       *BlockStatement
+}
+
+func (fnLitrl *FunctionLiteral) expressionNode()      {}
+func (fnLitrl *FunctionLiteral) TokenLiteral() string { return fnLitrl.Token.Literal }
+func (fnLitrl *FunctionLiteral) String() string {
+	var out bytes.Buffer
+
+	params := []string{}
+	for _, p := range fnLitrl.Parameters {
+		params = append(params, p.String())
+	}
+
+	out.WriteString(fnLitrl.TokenLiteral())
+	out.WriteString("(")
+	out.WriteString(strings.Join(params, ", "))
+	out.WriteString(") ")
+	out.WriteString(fnLitrl.Body.String())
 
 	return out.String()
 }
