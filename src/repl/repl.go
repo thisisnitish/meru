@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"meru/src/evaluator"
 	"meru/src/lexer"
 	"meru/src/parser"
 )
@@ -32,8 +33,14 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		io.WriteString(out, program.String())
-		io.WriteString(out, "\n")
+		evaluated := evaluator.Eval(program)
+		if evaluated != nil {
+			io.WriteString(out, evaluated.Inspect())
+			io.WriteString(out, "\n")
+		}
+
+		// io.WriteString(out, program.String())
+		// io.WriteString(out, "\n")
 
 		// for tok := l.NextToken(); tok.Type != token.EOF; tok = l.NextToken() {
 		// 	fmt.Printf("%+v\n", tok)
